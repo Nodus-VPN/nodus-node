@@ -1,0 +1,1 @@
+from pkg.api.wg import WGClient
