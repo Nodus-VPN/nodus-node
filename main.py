@@ -1,52 +1,242 @@
-import uvicorn
+import requests
 
-from infrastructure.pg.pg import PG
-from internal.app.http.app import NewHttp
-
-from pkg.api import WGClient
-from internal.config import config
+from pkg.contracts.vpn import ContractVPN
+from internal.app.init_node.app import InitNode
 
 import argparse
-
 parser = argparse.ArgumentParser(description='For choice app')
 parser.add_argument(
     'app',
     type=str,
-    help='Option: "http, init"'
+    help='Option: "http, init_node"'
 )
 
-secret_key = config.get("SECRET_KEY")
+contract_abi = """[{
+    "inputs": [
+        {
+            "internalType": "address",
+            "name": "_nds_address",
+            "type": "address"
+        }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+},
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnableInvalidOwner",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "OwnableUnauthorizedAccount",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "previousOwner",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "node_id",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "node_ip",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "node_owner",
+                "type": "address"
+            }
+        ],
+        "name": "SetNode",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_ip",
+                "type": "string"
+            }
+        ],
+        "name": "setNodeIP",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "stateMutability": "payable",
+        "type": "receive"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "availableNodes",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAllNode",
+        "outputs": [
+            {
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_client",
+                "type": "address"
+            }
+        ],
+        "name": "getClientBalance",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "NDS",
+        "outputs": [
+            {
+                "internalType": "contract IERC20",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "nodeOwners",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]"""
 
-db_user = config.get("DB_USER")
-db_pass = config.get("DB_PASS")
-db_host = config.get("DB_HOST")
-db_port = config.get("DB_PORT")
-db_name = config.get("DB_NAME")
+contract_vpn = ContractVPN(
+    sender_address="0xBb35CB00d1e54A98b6a44E4F42faBedD43660293",
+    sender_private_key="2dca2cd0db77495ca32f08e601457bb75fc0b8d92d6f4e654792334554d80f85",
+    contract_abi=contract_abi,
+    contract_address="0xF7190873c75Aafd295B1a466c24a2e144adeCBA9"
+)
 
-auth_host = config.get("FILESHARING_AUTH_HOST")
-auth_port = config.get("FILESHARING_AUTH_PORT")
-
-
-# INFRASTRUCTURE
-db = PG(db_user, db_pass, db_host, db_port, db_name)
-
-# INTERCONNECTION
-crypto_client = CryptoClient()
-auth_client = AuthClient(auth_host, auth_port)
-
-# DEPENDENCIES
-subscription_repo = SubscriptionRepo(db)
-subscription_service = SubscriptionService(subscription_repo, crypto_client)
+node_ip = requests.get("http://icanhazip.com").text
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    http_port = config.get("FILESHARING_SUBSCRIPTION_PORT")
 
-    if args.app == "http":
-        app = NewHttp(
-            db,
-            subscription_service,
-            auth_client,
-            secret_key
+    if args.app == "init_node":
+        InitNode(
+            contract_vpn,
+            node_ip
         )
-        uvicorn.run(app, host="0.0.0.0", port=int(http_port))
