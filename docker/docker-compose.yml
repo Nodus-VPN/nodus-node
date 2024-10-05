@@ -7,9 +7,9 @@ services:
       dockerfile: "docker/DockerfileInitNode"
     container_name: nodus-init
     environment:
-      - OWNER_ADDRESS=${OWNER_ADDRESS
-      - OWNER_PRIVATE_KEY=${OWNER_PRIVATE_KEY}
-      - NODE_IP=${NODE_IP}
+      OWNER_ADDRESS: ${OWNER_ADDRESS
+      OWNER_PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
+      NODE_IP: ${NODE_IP}
     restart: unless-stopped
     networks:
       - net
