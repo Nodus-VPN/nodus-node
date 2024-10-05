@@ -30,8 +30,21 @@ FOR EACH ROW
 EXECUTE PROCEDURE update_updated_at();
 """
 
+drop_clients_table_query = """
+DROP TABLE IF EXISTS clients;
+"""
+
+drop_on_update_clients_trigger_query = """
+DROP TRIGGER IF EXISTS update_updated_at_trigger ON clients;
+"""
+
 create_queries = [
     create_clients_table_query,
     create_on_update_table_func_query,
     on_update_clients_query,
+]
+
+drop_queries = [
+    drop_clients_table_query,
+    drop_on_update_clients_trigger_query,
 ]

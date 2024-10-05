@@ -14,20 +14,20 @@ services:
     networks:
       - net
 
-#  nodus-http:
-#    build:
-#      context: "../"
-#      dockerfile: "docker/DockerfileHttp"
-#    ports:
-#      - "7000:7000"
-#    container_name: nodus-http
-#    environment:
-#      OWNER_ADDRESS: ${OWNER_ADDRESS}
-#      OWNER_PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
-#      NODE_IP: ${NODE_IP}
-#    restart: unless-stopped
-#    networks:
-#      - net
+  nodus-http:
+    build:
+      context: "../"
+      dockerfile: "docker/DockerfileHttp"
+    ports:
+      - "7000:7000"
+    container_name: nodus-http
+    environment:
+      OWNER_ADDRESS: ${OWNER_ADDRESS}
+      OWNER_PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
+      NODE_IP: ${NODE_IP}
+    restart: unless-stopped
+    networks:
+      - net
 
   wg-easy:
     image: ghcr.io/wg-easy/wg-easy
