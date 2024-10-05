@@ -1,6 +1,19 @@
 version: "3.9"
 services:
 
+  nodus-init:
+    build:
+      context: "../"
+      dockerfile: "docker/DockerfileInitNode"
+    container_name: nodus-init
+    environment:
+      - OWNER_ADDRESS=${OWNER_ADDRESS
+      - OWNER_PRIVATE_KEY=${OWNER_PRIVATE_KEY}
+      - NODE_IP=${NODE_IP}
+    restart: unless-stopped
+    networks:
+      - net
+
   nodus-http:
     build:
       context: "../"
@@ -12,20 +25,11 @@ services:
     networks:
       - net
 
-  nodus-init:
-    build:
-      context: "../"
-      dockerfile: "docker/DockerfileInitNode"
-    container_name: nodus-init
-    restart: unless-stopped
-    networks:
-      - net
-
   wg-easy:
     image: ghcr.io/wg-easy/wg-easy
     container_name: wg-easy
     environment:
-      - WG_HOST=${WG_HOST}  # Укажите свой внешний IP или домен
+      - WG_HOST=${NODE_IP}
     volumes:
       - "~/.wg-easy:/etc/wireguard"
     ports:

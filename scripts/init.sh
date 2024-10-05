@@ -10,8 +10,20 @@
 #sudo apt update -y
 #apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
-docker compose -f docker/docker-compose.yml up nodus-init --build
+echo -n "Введите ваш адрес кошелька ERC20: "
+read owner_address
+OWNER_ADDRESS=owner_address
+echo "Ваш кошелек: $OWNER_ADDRESS"
 
+echo -n "Введите private key от вашего кошелька $owner_address: "
+read owner_private_key
+OWNER_PRIVATE_KEY=owner_private_key
+echo "Private key от вашего кошелька $OWNER_ADDRESS: $OWNER_PRIVATE_KEY"
+
+NODE_IP=$(wget -q -4 -O- http://icanhazip.com)
+echo "Ваш IP: $NODE_IP"
+
+docker compose -f docker/docker-compose.yml up nodus-init --build
 
 
 #docker network create net

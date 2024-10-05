@@ -1,5 +1,9 @@
+import os
 from dataclasses import dataclass
-import requests
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 @dataclass
@@ -11,12 +15,9 @@ class Config:
     db_name = "postgres"
 
     wg_host = "wg_easy"
-    owner_address = input("Введите ваш адрес кошелька ERC20:")
-    owner_private_key = input(f"Введите private_key от вашего кошелька {owner_address}:")
+    owner_address = os.getenv("OWNER_ADDRESS")
+    owner_private_key = os.getenv("OWNER_PRIVATE_KEY")
 
-    node_ip: str = requests.get("http://icanhazip.com").text
+    node_ip: str = os.getenv("NODE_IP")
     HTTP_PORT: int = 7000
     price_per_day: int = 100
-
-
-
