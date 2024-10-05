@@ -1,5 +1,29 @@
 from abc import abstractmethod
 from typing import Protocol, Any, Sequence
+from internal.model.api.wg import WGClient
+
+
+class IWGService(Protocol):
+
+    @abstractmethod
+    async def create_client(self, client_address: str): pass
+
+    @abstractmethod
+    async def delete_client(self, client_address: str): pass
+
+    @abstractmethod
+    async def client_by_address(self, client_address: str): pass
+
+
+class IWGRepository(Protocol):
+    @abstractmethod
+    async def create_client(self, client_address: str): pass
+
+    @abstractmethod
+    async def delete_client(self, client_address: str): pass
+
+    @abstractmethod
+    async def client_by_address(self, client_address: str): pass
 
 
 class IClientService(Protocol):
@@ -31,16 +55,16 @@ class IContractVPN(Protocol):
 
 class WGInterface(Protocol):
     @abstractmethod
-    async def create_client(self):
-        pass
+    async def create_client(self, client_address: str): pass
 
     @abstractmethod
-    async def delete_client(self):
-        pass
+    async def delete_client(self, client_address: str) -> None: pass
 
     @abstractmethod
-    async def all_client(self):
-        pass
+    async def all_client(self) -> list[WGClient]: pass
+
+    @abstractmethod
+    async def client_by_address(self, client_address: str) -> WGClient: pass
 
 
 class DBInterface(Protocol):

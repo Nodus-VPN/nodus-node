@@ -7,7 +7,10 @@ from internal.app.init_node.app import InitNode
 from internal.app.client_checker.app import NewClientChecker
 from internal.app.http.app import NewHttp
 
-from internal.config.config import Config
+from internal.service.wg.wg import WGService
+from internal.repository.wg.wg import WGRepository
+
+from internal.config.config import Config as cfg
 import argparse
 
 parser = argparse.ArgumentParser(description='For choice app')
@@ -235,22 +238,27 @@ contract_vpn = ContractVPN(
     contract_address="0xF7190873c75Aafd295B1a466c24a2e144adeCBA9"
 )
 
-wg_client = WG(Config.wg_host)
+
+db = PG(cfg.db_user, cfg.db_pass, cfg.db_host, cfg.db_port, cfg.db_name)
+
+wg = WG(cfg.wg_host)
+wg_repository = WGRepository(db, wg)
+wg_service = WGService(wg_repository)
 
 if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.app == "http":
-        NewHttp()
+        app = NewHttp(db, wg_service)
 
     if args.app == "init_node":
         result = InitNode(
             contract_vpn,
-            Config.node_ip
+            cfg.node_ip
         )
         print(result)
 
-    if args.app == "client_checker":
-        NewClientChecker(
-
-        )
+    # if args.app == "client_checker":
+    #     NewClientChecker(
+    #
+    #     )
