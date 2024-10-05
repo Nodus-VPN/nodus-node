@@ -4,7 +4,7 @@ services:
   nodus-http:
     build:
       context: "../"
-      dockerfile: "dokcer/DockerfileHttp"
+      dockerfile: "docker/DockerfileHttp"
     ports:
       - "7000:7000"
     container_name: nodus-http
@@ -15,7 +15,7 @@ services:
   nodus-init:
     build:
       context: "../"
-      dockerfile: "dokcer/DockerfileInitNode"
+      dockerfile: "docker/DockerfileInitNode"
     container_name: nodus-init
     restart: unless-stopped
     networks:
