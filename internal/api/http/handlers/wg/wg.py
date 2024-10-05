@@ -23,7 +23,8 @@ def create_wg_client_handler(wg_service: model.IWGService):
                     }
                 )
 
-            wg_client = await wg_service.create_client(client_address)
+            wg_client_id = await wg_service.create_client(client_address)
+
         except Exception as e:
             raise e
 

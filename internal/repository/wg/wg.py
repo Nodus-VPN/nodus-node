@@ -6,7 +6,7 @@ class WGRepository(model.IWGRepository):
         self.db = db
         self.wg = wg
 
-    async def create_client(self, client_address: str):
+    async def create_client(self, client_address: str) -> str:
         success = await self.wg.create_client(client_address)
         if not success:
             raise Exception(f'Failed to create client {client_address}')
@@ -15,6 +15,7 @@ class WGRepository(model.IWGRepository):
 
         query_params = {"client_address": client_address, "client_wg_id": client.id}
         await self.db.insert(model.create_wg_client, query_params)
+        return client.id
 
     async def delete_client(self, client_address: str):
         success = await self.wg.client_by_address(client_address)

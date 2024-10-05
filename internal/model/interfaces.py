@@ -17,7 +17,7 @@ class IWGService(Protocol):
 
 class IWGRepository(Protocol):
     @abstractmethod
-    async def create_client(self, client_address: str): pass
+    async def create_client(self, client_address: str) -> str: pass
 
     @abstractmethod
     async def delete_client(self, client_address: str): pass
