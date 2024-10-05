@@ -13,8 +13,6 @@
 docker compose -f docker/docker-compose.yml up nodus-init --build
 
 
-
-
 #docker network create net
 #docker run -d \
 #  --name=wg-easy \
