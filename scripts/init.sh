@@ -9,20 +9,36 @@ if ! [ -x "$(command -v docker)" ]; then
   echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt update -y
   apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-else
-  echo "Docker установлен."
 fi
 
+echo ""
+echo "-----------------------------------"
+echo ""
 echo -n "Введите ваш адрес кошелька ERC20: "
 read owner_address
 OWNER_ADDRESS=$owner_address
+echo ""
+echo "-----------------------------------"
+echo ""
 
+echo ""
+echo "-----------------------------------"
+echo ""
 echo -n "Введите private key от вашего кошелька $OWNER_ADDRESS: "
 read owner_private_key
 OWNER_PRIVATE_KEY=$owner_private_key
+echo ""
+echo "-----------------------------------"
+echo ""
 
+echo ""
+echo "-----------------------------------"
+echo ""
 NODE_IP=$(wget -q -4 -O- http://icanhazip.com)
 echo "Ваш IP: $NODE_IP"
+echo ""
+echo "-----------------------------------"
+echo ""
 
 export OWNER_ADDRESS
 export OWNER_PRIVATE_KEY
