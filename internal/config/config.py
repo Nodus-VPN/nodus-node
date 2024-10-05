@@ -18,7 +18,7 @@ class Config:
     owner_address = os.getenv("OWNER_ADDRESS")
     owner_private_key = os.getenv("OWNER_PRIVATE_KEY")
 
-    contract_address: str = "0xda2ce8e2bbA560b562Da741Ea2f0112C43b54C64"
+    contract_address: str = "0xAf381aEF7BF4c600821989aD0777Fbb589dFA013"
     contract_abi: str = """[
         {
             "inputs": [
