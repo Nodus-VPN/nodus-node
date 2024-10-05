@@ -16,12 +16,18 @@ class WG(model.WGInterface):
             async with session.post(self.base_url + path, json=body, headers=headers) as resp:
                 return await resp.json()
 
+    async def __async_delete(self, path: str, body: dict = None, headers: dict = None, cookies: dict = None):
+        async with aiohttp.ClientSession(headers=headers, cookies=cookies) as session:
+            async with session.delete(self.base_url + path, json=body, headers=headers) as resp:
+                return await resp.json()
+
     async def create_client(self, client_address: str) -> bool:
         response = await self.__async_post("/wireguard/client", {"name": client_address})
         return response["success"]
 
     async def delete_client(self, client_wg_id: str) -> None:
-        pass
+        response = await self.__async_delete(f"/wireguard/client/{client_wg_id}")
+        return response["success"]
 
     async def all_client(self) -> list[model.WGClient]:
         response = await self.__async_get("/wireguard/client")
