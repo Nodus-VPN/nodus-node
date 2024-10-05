@@ -248,5 +248,5 @@ class Config:
     ]"""
 
     node_ip: str = os.getenv("NODE_IP")
-    HTTP_PORT: int = 7000
+    http_port: int = 7000
     price_per_day: int = 100

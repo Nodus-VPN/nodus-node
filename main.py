@@ -1,3 +1,5 @@
+import uvicorn
+
 from infrastructure.pg.pg import PG
 from infrastructure.wg.wg import WG
 
@@ -39,6 +41,7 @@ if __name__ == '__main__':
 
     if args.app == "http":
         app = NewHttp(db, wg_service)
+        uvicorn.run(app, host="0.0.0.0", port=cfg.http_port)
 
     if args.app == "init_node":
         InitNode(
