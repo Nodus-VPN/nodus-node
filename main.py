@@ -41,11 +41,10 @@ if __name__ == '__main__':
     #     app = NewHttp(db, wg_service)
 
     if args.app == "init_node":
-        result = InitNode(
+        InitNode(
             contract_vpn,
             cfg.node_ip
         )
-        print(result)
 
     # if args.app == "client_checker":
     #     NewClientChecker(

@@ -10,7 +10,7 @@ services:
       OWNER_ADDRESS: ${OWNER_ADDRESS}
       OWNER_PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
       NODE_IP: ${NODE_IP}
-    restart: unless-stopped
+    restart: no
     networks:
       - net
 
@@ -21,6 +21,10 @@ services:
     ports:
       - "7000:7000"
     container_name: nodus-http
+    environment:
+      OWNER_ADDRESS: ${OWNER_ADDRESS}
+      OWNER_PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
+      NODE_IP: ${NODE_IP}
     restart: unless-stopped
     networks:
       - net
