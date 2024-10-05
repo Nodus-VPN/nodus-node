@@ -1,12 +1,11 @@
 class WG:
-    def __init__(self, host, port):
+    def __init__(self, host):
         self.host = host
-        self.port = port
 
-    def create_client(self, name, duration: int = None):
+    def create_client(self, address: str, duration: int = None):
         pass
 
-    def delete_client(self, name):
+    def delete_client(self, address: str):
         pass
 
     def all_client(self):

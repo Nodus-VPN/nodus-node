@@ -1,14 +1,20 @@
-import requests
+from infrastructure.pg.pg import PG
+from infrastructure.wg.wg import WG
 
 from pkg.contracts.vpn import ContractVPN
-from internal.app.init_node.app import InitNode
 
+from internal.app.init_node.app import InitNode
+from internal.app.client_checker.app import NewClientChecker
+from internal.app.http.app import NewHttp
+
+from internal.config.config import Config
 import argparse
+
 parser = argparse.ArgumentParser(description='For choice app')
 parser.add_argument(
     'app',
     type=str,
-    help='Option: "http, init_node"'
+    help='Option: "http, init_node, client_checker"'
 )
 
 contract_abi = """[{
@@ -222,21 +228,29 @@ contract_abi = """[{
         "type": "function"
     }
 ]"""
-
 contract_vpn = ContractVPN(
-    sender_address="0xBb35CB00d1e54A98b6a44E4F42faBedD43660293",
-    sender_private_key="2dca2cd0db77495ca32f08e601457bb75fc0b8d92d6f4e654792334554d80f85",
+    owner_address="0xBb35CB00d1e54A98b6a44E4F42faBedD43660293",
+    owner_private_key="2dca2cd0db77495ca32f08e601457bb75fc0b8d92d6f4e654792334554d80f85",
     contract_abi=contract_abi,
     contract_address="0xF7190873c75Aafd295B1a466c24a2e144adeCBA9"
 )
 
-node_ip = requests.get("http://icanhazip.com").text
+wg_client = WG(Config.wg_host)
 
 if __name__ == '__main__':
     args = parser.parse_args()
 
+    if args.app == "http":
+        NewHttp()
+
     if args.app == "init_node":
-        InitNode(
+        result = InitNode(
             contract_vpn,
-            node_ip
+            Config.node_ip
+        )
+        print(result)
+
+    if args.app == "client_checker":
+        NewClientChecker(
+
         )

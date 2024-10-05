@@ -1,5 +1,5 @@
-import os
 from dataclasses import dataclass
+import requests
 
 from dotenv import load_dotenv
 
@@ -8,17 +8,19 @@ load_dotenv()
 
 @dataclass
 class Config:
-    db_user = os.environ.get("DB_USERNAME")
-    db_pass = os.environ.get("DB_PASSWORD")
-    db_host = os.environ.get("DB_HOST")
-    db_port = os.environ.get("DB_PORT")
-    db_name = os.environ.get("DB_NAME")
+    db_user = "postgres"
+    db_pass = "postgres"
+    db_host = "postgres_db"
+    db_port = 5432
+    db_name = "postgres"
 
-    secret_key = os.environ.get("SECRET_KEY")
+    wg_host = "wg_easy"
+    owner_address = input("Введите ваш адрес кошелька ERC20:")
+    owner_private_key = input(f"Введите private_key от вашего кошелька {owner_address}:")
 
-    weed_master_url = os.environ.get("WEED_MASTER_URL")
-    # HTTP
-    HTTP_PORT = os.environ.get("FILESHARING_STORAGE_PORT")
+    node_ip: str = requests.get("http://icanhazip.com").text
+    HTTP_PORT: int = 7000
+    price_per_day: int = 100
 
 
 

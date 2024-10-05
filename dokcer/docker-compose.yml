@@ -1,0 +1,97 @@
+version: "3.9"
+services:
+
+  nodus-http:
+    build:
+      dockerfile: "Dockerfile"
+    env_file: "../../.env"
+    ports:
+      - "8000:80"
+    container_name: filesharing-frontend
+    restart: unless-stopped
+    networks:
+      - net
+
+  filesharing-account:
+    build:
+      context: "../../"
+      dockerfile: "system/services/filesharing-account/Dockerfile"
+    env_file: "../../.env"
+    ports:
+      - "8004:8004"
+    container_name: account-service
+    restart: unless-stopped
+    networks:
+      - net
+
+  filesharing-auth:
+    build:
+      context: "../../"
+      dockerfile: "system/services/filesharing-auth/Dockerfile"
+    env_file: "../../.env"
+    ports:
+      - "8007:8007"
+    container_name: auth-service
+    restart: unless-stopped
+    networks:
+      - net
+
+  filesharing-storage:
+    build:
+      context: "../../"
+      dockerfile: "system/services/filesharing-storage/Dockerfile"
+    env_file: "../../.env"
+    ports:
+      - "8002:8002"
+    container_name: storage-service
+    restart: unless-stopped
+    networks:
+      - net
+
+  filesharing-subscription:
+    build:
+      context: "../../"
+      dockerfile: "system/services/filesharing-subscription/Dockerfile"
+    env_file: "../../.env"
+    ports:
+      - "8003:8003"
+    container_name: subscription-service
+    restart: unless-stopped
+    networks:
+      - net
+
+  filesharing-payment:
+    build:
+      context: "../../"
+      dockerfile: "system/services/filesharing-payment/Dockerfile"
+    env_file: "../../.env"
+    ports:
+      - "8001:8001"
+    container_name: payment-service
+    restart: unless-stopped
+    networks:
+      - net
+
+
+  btc-payment-confirmator:
+    build:
+      context: "../../"
+      dockerfile: "system/services/filesharing-payment/DockerfileBtcConfirmator"
+    env_file: "../../.env"
+    container_name: btc-payment-confirmator
+    restart: unless-stopped
+    networks:
+      - net
+
+  storage-collector:
+    build:
+      context: "../../"
+      dockerfile: "system/services/filesharing-storage/DockerfileCollector"
+    env_file: "../../.env"
+    container_name: storage-collector
+    restart: unless-stopped
+    networks:
+      - net
+
+networks:
+  net:
