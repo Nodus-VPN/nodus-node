@@ -28,17 +28,17 @@ contract_vpn = ContractVPN(
 )
 
 
-db = PG(cfg.db_user, cfg.db_pass, cfg.db_host, cfg.db_port, cfg.db_name)
-
-wg = WG(cfg.wg_host)
-wg_repository = WGRepository(db, wg)
-wg_service = WGService(wg_repository)
+# db = PG(cfg.db_user, cfg.db_pass, cfg.db_host, cfg.db_port, cfg.db_name)
+#
+# wg = WG(cfg.wg_host)
+# wg_repository = WGRepository(db, wg)
+# wg_service = WGService(wg_repository)
 
 if __name__ == '__main__':
     args = parser.parse_args()
 
-    if args.app == "http":
-        app = NewHttp(db, wg_service)
+    # if args.app == "http":
+    #     app = NewHttp(db, wg_service)
 
     if args.app == "init_node":
         result = InitNode(
