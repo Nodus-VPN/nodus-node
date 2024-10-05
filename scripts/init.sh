@@ -47,13 +47,27 @@ export NODE_IP
 docker compose -f docker/docker-compose.yml up nodus-init --build
 
 if [ $? -ne 0 ]; then
+  echo ""
+  echo "-----------------------------------"
+  echo ""
   echo "Инициализация не удалось,
    не хватает средств для совершения транзакции на запись вашего IP в блокчейн.
    Пополните баланс"
   exit 1
+  echo ""
+  echo "-----------------------------------"
+  echo ""
 else
+  echo ""
+  echo "-----------------------------------"
+  echo ""
   echo "Инициализация прошла успешно."
+  echo ""
+  echo "-----------------------------------"
+  echo ""
 fi
+
+docker compose -f docker/docker-compose.yml up wg-easy --build
 
 docker compose -f docker/docker-compose.yml up nodus-http --build
 
