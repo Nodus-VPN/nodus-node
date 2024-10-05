@@ -6,6 +6,8 @@ def InitNode(
         node_ip: str
 ) -> str:
     all_node = contract.all_node()
+    print(all_node)
+    print(node_ip)
     if node_ip in all_node:
         return f"Вы уже инициализировались ранее, ваш IP: {node_ip}"
 
