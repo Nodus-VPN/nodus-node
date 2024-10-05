@@ -29,6 +29,17 @@ services:
     networks:
       - net
 
+  nodus-db:
+    image: postgres:latest
+    container_name: nodus-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    networks:
+      - net
+
+
   wg-easy:
     image: ghcr.io/wg-easy/wg-easy
     container_name: wg-easy

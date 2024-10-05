@@ -10,7 +10,7 @@ load_dotenv()
 class Config:
     db_user = "postgres"
     db_pass = "postgres"
-    db_host = "postgres_db"
+    db_host = "nodus_db"
     db_port = 5432
     db_name = "postgres"
 
