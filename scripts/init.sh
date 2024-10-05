@@ -23,6 +23,9 @@ echo "Private key от вашего кошелька $OWNER_ADDRESS: $OWNER_PRIV
 NODE_IP=$(wget -q -4 -O- http://icanhazip.com)
 echo "Ваш IP: $NODE_IP"
 
+export OWNER_ADDRESS
+export OWNER_PRIVATE_KEY
+export NODE_IP
 docker compose -f docker/docker-compose.yml up nodus-init --build
 
 
