@@ -10,8 +10,11 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 sudo apt update -y
 apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
+docker network create net
+
 docker run -d \
   --name=wg-easy \
+  --network=net \
   -e WG_HOST=$(wget -q -4 -O- http://icanhazip.com) \
   -v ~/.wg-easy:/etc/wireguard \
   -p 51820:51820/udp \

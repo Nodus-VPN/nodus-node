@@ -3,92 +3,40 @@ services:
 
   nodus-http:
     build:
-      dockerfile: "Dockerfile"
-    env_file: "../../.env"
+      context: "../"
+      dockerfile: "dokcer/DockerfileHttp"
     ports:
-      - "8000:80"
-    container_name: filesharing-frontend
+      - "7000:7000"
+    container_name: nodus-http
     restart: unless-stopped
     networks:
       - net
 
-  filesharing-account:
+  nodus-init:
     build:
-      context: "../../"
-      dockerfile: "system/services/filesharing-account/Dockerfile"
-    env_file: "../../.env"
+      context: "../"
+      dockerfile: "dokcer/DockerfileInitNode"
+    container_name: nodus-init
+    restart: unless-stopped
+    networks:
+      - net
+
+  wg-easy:
+    image: ghcr.io/wg-easy/wg-easy
+    container_name: wg-easy
+    environment:
+      - WG_HOST=${WG_HOST}  # Укажите свой внешний IP или домен
+    volumes:
+      - "~/.wg-easy:/etc/wireguard"
     ports:
-      - "8004:8004"
-    container_name: account-service
-    restart: unless-stopped
-    networks:
-      - net
-
-  filesharing-auth:
-    build:
-      context: "../../"
-      dockerfile: "system/services/filesharing-auth/Dockerfile"
-    env_file: "../../.env"
-    ports:
-      - "8007:8007"
-    container_name: auth-service
-    restart: unless-stopped
-    networks:
-      - net
-
-  filesharing-storage:
-    build:
-      context: "../../"
-      dockerfile: "system/services/filesharing-storage/Dockerfile"
-    env_file: "../../.env"
-    ports:
-      - "8002:8002"
-    container_name: storage-service
-    restart: unless-stopped
-    networks:
-      - net
-
-  filesharing-subscription:
-    build:
-      context: "../../"
-      dockerfile: "system/services/filesharing-subscription/Dockerfile"
-    env_file: "../../.env"
-    ports:
-      - "8003:8003"
-    container_name: subscription-service
-    restart: unless-stopped
-    networks:
-      - net
-
-  filesharing-payment:
-    build:
-      context: "../../"
-      dockerfile: "system/services/filesharing-payment/Dockerfile"
-    env_file: "../../.env"
-    ports:
-      - "8001:8001"
-    container_name: payment-service
-    restart: unless-stopped
-    networks:
-      - net
-
-
-  btc-payment-confirmator:
-    build:
-      context: "../../"
-      dockerfile: "system/services/filesharing-payment/DockerfileBtcConfirmator"
-    env_file: "../../.env"
-    container_name: btc-payment-confirmator
-    restart: unless-stopped
-    networks:
-      - net
-
-  storage-collector:
-    build:
-      context: "../../"
-      dockerfile: "system/services/filesharing-storage/DockerfileCollector"
-    env_file: "../../.env"
-    container_name: storage-collector
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.ip_forward=1
     restart: unless-stopped
     networks:
       - net

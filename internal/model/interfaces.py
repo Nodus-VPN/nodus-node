@@ -52,6 +52,9 @@ class IContractVPN(Protocol):
     @abstractmethod
     def set_node_ip(self, node_ip: str) -> None: pass
 
+    @abstractmethod
+    def all_node(self) -> list[str]: pass
+
 
 class WGInterface(Protocol):
     @abstractmethod
