@@ -14,7 +14,7 @@ class Config:
     db_port = 5432
     db_name = "postgres"
 
-    wg_host = "wg_easy"
+    wg_host = "wg-easy"
     wg_port = 51821
     owner_address = os.getenv("OWNER_ADDRESS")
     owner_private_key = os.getenv("OWNER_PRIVATE_KEY")
