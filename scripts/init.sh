@@ -67,9 +67,7 @@ else
   echo ""
 fi
 
-docker compose -f docker/docker-compose.yml up wg-easy --build -d
-
-docker compose -f docker/docker-compose.yml up nodus-http --build
+docker compose -f docker/docker-compose.yml up --build
 
 
 #docker network create net
