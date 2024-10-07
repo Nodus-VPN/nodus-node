@@ -9,7 +9,7 @@ class WG(model.WGInterface):
     async def __async_get(self, path: str, headers: dict = None, cookies: dict = None):
         async with aiohttp.ClientSession(headers=None, cookies=cookies) as session:
             async with session.get(self.base_url + path, headers=headers) as resp:
-                return await resp.json()
+                return resp
 
     async def __async_post(self, path: str, body: dict, headers: dict = None, cookies: dict = None):
         async with aiohttp.ClientSession(headers=headers, cookies=cookies) as session:
@@ -35,6 +35,7 @@ class WG(model.WGInterface):
 
     async def all_client(self) -> list[model.WGClient]:
         response = await self.__async_get("/wireguard/client")
+        response = await response.json()
         print(response)
         for i in range(len(response)):
             response[i] = model.WGClient(**response[i])
