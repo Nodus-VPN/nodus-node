@@ -1,5 +1,6 @@
 from fastapi import status
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from tempfile import NamedTemporaryFile
 
 from internal import model
 from .schemas import *
@@ -18,9 +19,11 @@ def get_wg_config_handler(wg_service: model.IWGService):
                 wg_client_id = wg_client.wg_id
 
             wg_config = await wg_service.get_config(wg_client_id)
-            print(wg_config)
-            print(type(wg_config), flush=True)
+            with NamedTemporaryFile(delete=False, suffix=".conf") as temp:
+                temp.write(wg_config.content)
+                temp_path = temp.name
 
+            return FileResponse(temp_path, media_type='text/plain', filename=f"wg.conf")
         except Exception as e:
             raise e
 

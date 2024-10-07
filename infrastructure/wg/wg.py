@@ -36,14 +36,12 @@ class WG(model.WGInterface):
     async def all_client(self) -> list[model.WGClient]:
         response = await self.__async_get("/wireguard/client")
         response = await response.json()
-        print(response)
         for i in range(len(response)):
             response[i] = model.WGClient(**response[i])
         return response
 
     async def client_by_address(self, client_address: str) -> model.WGClient:
         all_clients = await self.all_client()
-        print(all_clients)
         for client in all_clients:
             if client.name == client_address:
                 return client
