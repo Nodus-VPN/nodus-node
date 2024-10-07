@@ -2,8 +2,8 @@ create_clients_table_query = """
 CREATE TABLE IF NOT EXISTS clients (
 id SERIAL PRIMARY KEY,
 
-wg_id TEXT UNIQUE DEFAUlT NONE,
-ovpn_id TEXT UNIQUE DEFAUlT NONE,
+wg_id TEXT DEFAUlT NONE,
+ovpn_id TEXT DEFAUlT NONE,
 address TEXT NOT NULL,
 traffic INTEGER DEFAULT 0,
 
