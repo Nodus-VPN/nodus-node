@@ -5,7 +5,7 @@ from dataclasses import dataclass
 class WGClient:
     id: str
     name: str
-    enable: bool
+    enabled: bool
     address: str
     public_key: str
     createdAt: str
