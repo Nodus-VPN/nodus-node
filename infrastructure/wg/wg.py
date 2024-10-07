@@ -44,5 +44,5 @@ class WG(model.WGInterface):
         all_clients = await self.all_client()
         print(all_clients)
         for client in all_clients:
-            if client.address == client_address:
+            if client.name == client_address:
                 return client
