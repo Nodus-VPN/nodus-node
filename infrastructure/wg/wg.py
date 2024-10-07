@@ -10,7 +10,12 @@ class WG(model.WGInterface):
     async def __async_get(self, path: str, headers: dict = None, cookies: dict = None):
         async with aiohttp.ClientSession(headers=None, cookies=cookies) as session:
             async with session.get(self.base_url + path, headers=headers) as resp:
-                return resp
+                return await resp.json()
+
+    async def __async_get_file(self, path: str, headers: dict = None, cookies: dict = None):
+        async with aiohttp.ClientSession(headers=None, cookies=cookies) as session:
+            async with session.get(self.base_url + path, headers=headers) as resp:
+                return await resp.content.read()
 
     async def __async_post(self, path: str, body: dict, headers: dict = None, cookies: dict = None):
         async with aiohttp.ClientSession(headers=headers, cookies=cookies) as session:
@@ -26,15 +31,9 @@ class WG(model.WGInterface):
         response = await self.__async_post("/wireguard/client", {"name": client_address})
         return response["success"]
 
-    async def get_config(self, wg_client_id: str):
-        response = await self.__async_get(f"/wireguard/client/{wg_client_id}/configuration")
-        with NamedTemporaryFile(delete=False, suffix=".conf") as content:
-            while True:
-                chunk = await response.content.read(10)
-                if not chunk:
-                    break
-                content.write(chunk)
-            return content.name
+    async def get_config(self, wg_client_id: str) -> bytes:
+        content = await self.__async_get_file(f"/wireguard/client/{wg_client_id}/configuration")
+        return content
 
     async def delete_client(self, client_wg_id: str) -> None:
         response = await self.__async_delete(f"/wireguard/client/{client_wg_id}")

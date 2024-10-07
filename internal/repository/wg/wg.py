@@ -30,5 +30,5 @@ class WGRepository(model.IWGRepository):
             rows = model.Client.serialize(rows)
         return rows
 
-    async def get_config(self, wg_client_id):
+    async def get_config(self, wg_client_id) -> bytes:
         return await self.wg.get_config(wg_client_id)

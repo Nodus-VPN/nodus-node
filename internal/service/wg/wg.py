@@ -14,5 +14,5 @@ class WGService(model.IWGService):
     async def client_by_address(self, client_address: str) -> list[model.Client]:
         return await self.wg_repo.client_by_address(client_address)
 
-    async def get_config(self, wg_client_id):
+    async def get_config(self, wg_client_id) -> bytes:
         return await self.wg_repo.get_config(wg_client_id)

@@ -1,5 +1,5 @@
 from fastapi import status
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, Response
 
 from internal import model
 from .schemas import *
@@ -19,7 +19,7 @@ def get_wg_config_handler(wg_service: model.IWGService):
 
             wg_config = await wg_service.get_config(wg_client_id)
 
-            return FileResponse(wg_config, media_type='text/plain', filename=f"wg.conf")
+            return Response(wg_config, media_type='text/plain')
         except Exception as e:
             raise e
 

@@ -15,7 +15,7 @@ class IWGService(Protocol):
     async def client_by_address(self, client_address: str) -> list[model.Client]: pass
 
     @abstractmethod
-    async def get_config(self, wg_client_id): pass
+    async def get_config(self, wg_client_id) -> bytes: pass
 
 
 class IWGRepository(Protocol):
@@ -29,7 +29,7 @@ class IWGRepository(Protocol):
     async def client_by_address(self, client_address: str) -> list[model.Client]: pass
 
     @abstractmethod
-    async def get_config(self, wg_client_id): pass
+    async def get_config(self, wg_client_id) -> bytes: pass
 
 
 class IClientService(Protocol):
@@ -76,7 +76,7 @@ class WGInterface(Protocol):
     async def client_by_address(self, client_address: str) -> wg.WGClient: pass
 
     @abstractmethod
-    async def get_config(self, wg_client_id: str): pass
+    async def get_config(self, wg_client_id: str) -> bytes: pass
 
 
 class DBInterface(Protocol):
