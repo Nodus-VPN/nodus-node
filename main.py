@@ -31,7 +31,7 @@ contract_vpn = ContractVPN(
 
 db = PG(cfg.db_user, cfg.db_pass, cfg.db_host, cfg.db_port, cfg.db_name)
 
-wg = WG(cfg.wg_host)
+wg = WG(cfg.wg_host, cfg.wg_port)
 wg_repository = WGRepository(db, wg)
 wg_service = WGService(wg_repository)
 

@@ -3,8 +3,8 @@ from internal import model
 
 
 class WG(model.WGInterface):
-    def __init__(self, host):
-        self.base_url = f"http://{host}/api"
+    def __init__(self, host, port):
+        self.base_url = f"http://{host}:{port}/api"
 
     async def __async_get(self, path: str, headers: dict = None, cookies: dict = None):
         async with aiohttp.ClientSession(headers=None, cookies=cookies) as session:
