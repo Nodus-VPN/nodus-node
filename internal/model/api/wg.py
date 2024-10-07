@@ -7,7 +7,7 @@ class WGClient:
     name: str
     enabled: bool
     address: str
-    public_key: str
+    publicKey: str
     createdAt: str
     updatedAt: str
     downloadableConfig: bool
