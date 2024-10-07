@@ -1,4 +1,5 @@
 import aiohttp
+from tempfile import NamedTemporaryFile
 from internal import model
 
 
@@ -27,7 +28,13 @@ class WG(model.WGInterface):
 
     async def get_config(self, wg_client_id: str):
         response = await self.__async_get(f"/wireguard/client/{wg_client_id}/configuration")
-        return response
+        with NamedTemporaryFile(delete=False, suffix=".conf") as content:
+            while True:
+                chunk = await response.content.read(10)
+                if not chunk:
+                    break
+                content.write(chunk)
+            return content.name
 
     async def delete_client(self, client_wg_id: str) -> None:
         response = await self.__async_delete(f"/wireguard/client/{client_wg_id}")
