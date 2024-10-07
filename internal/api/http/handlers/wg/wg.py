@@ -7,11 +7,8 @@ from internal.api.http.handlers.status_codes import StatusCodes
 
 
 def get_wg_config_handler(wg_service: model.IWGService):
-    async def get_wg_config(request_data: CreateWGClientRequest):
+    async def get_wg_config(client_address: str):
         try:
-            client_data = request_data.model_dump()
-            client_address = client_data["client_address"]
-
             wg_client = await wg_service.client_by_address(client_address)
 
             if not wg_client:
