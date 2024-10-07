@@ -6,8 +6,8 @@ from .schemas import *
 from internal.api.http.handlers.status_codes import StatusCodes
 
 
-def create_wg_client_handler(wg_service: model.IWGService):
-    async def create_tokens(request_data: CreateWGClientRequest):
+def get_wg_config_handler(wg_service: model.IWGService):
+    async def get_wg_config(request_data: CreateWGClientRequest):
         try:
             client_data = request_data.model_dump()
             client_address = client_data["client_address"]
@@ -15,17 +15,16 @@ def create_wg_client_handler(wg_service: model.IWGService):
             wg_client = await wg_service.client_by_address(client_address)
 
             if not wg_client:
-                return JSONResponse(
-                    status_code=status.HTTP_409_CONFLICT,
-                    content={
-                        "error": "Client already exists",
-                        "status": StatusCodes.CLIENT_EXIST.value
-                    }
-                )
+                wg_client_id = await wg_service.create_client(client_address)
+            else:
+                wg_client = wg_client[0]
+                wg_client_id = wg_client.wg_id
 
-            wg_client_id = await wg_service.create_client(client_address)
+            wg_config = await wg_service.get_config(wg_client_id)
+            print(wg_config)
+            print(type(wg_config), flush=True)
 
         except Exception as e:
             raise e
 
-    return create_tokens
+    return get_wg_config

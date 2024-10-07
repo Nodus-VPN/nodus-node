@@ -1,18 +1,21 @@
 from abc import abstractmethod
 from typing import Protocol, Any, Sequence
-from internal.model.api.wg import WGClient
-
+from internal.model.api import wg
+from internal.model import model
 
 class IWGService(Protocol):
 
     @abstractmethod
-    async def create_client(self, client_address: str): pass
+    async def create_client(self, client_address: str) -> str: pass
 
     @abstractmethod
     async def delete_client(self, client_address: str): pass
 
     @abstractmethod
-    async def client_by_address(self, client_address: str): pass
+    async def client_by_address(self, client_address: str) -> list[model.Client]: pass
+
+    @abstractmethod
+    async def get_config(self, wg_client_id): pass
 
 
 class IWGRepository(Protocol):
@@ -23,7 +26,10 @@ class IWGRepository(Protocol):
     async def delete_client(self, client_address: str): pass
 
     @abstractmethod
-    async def client_by_address(self, client_address: str): pass
+    async def client_by_address(self, client_address: str) -> list[model.Client]: pass
+
+    @abstractmethod
+    async def get_config(self, wg_client_id): pass
 
 
 class IClientService(Protocol):
@@ -64,10 +70,13 @@ class WGInterface(Protocol):
     async def delete_client(self, client_address: str) -> None: pass
 
     @abstractmethod
-    async def all_client(self) -> list[WGClient]: pass
+    async def all_client(self) -> list[wg.WGClient]: pass
 
     @abstractmethod
-    async def client_by_address(self, client_address: str) -> WGClient: pass
+    async def client_by_address(self, client_address: str) -> wg.WGClient: pass
+
+    @abstractmethod
+    async def get_config(self, wg_client_id: str): pass
 
 
 class DBInterface(Protocol):

@@ -6,7 +6,6 @@ from infrastructure.wg.wg import WG
 from pkg.contracts.vpn import ContractVPN
 
 from internal.app.init_node.app import InitNode
-from internal.app.client_checker.app import NewClientChecker
 from internal.app.http.app import NewHttp
 
 from internal.service.wg.wg import WGService
@@ -19,7 +18,7 @@ parser = argparse.ArgumentParser(description='For choice app')
 parser.add_argument(
     'app',
     type=str,
-    help='Option: "http, init_node, client_checker"'
+    help='Option: "http, init_node"'
 )
 
 contract_vpn = ContractVPN(
@@ -48,8 +47,3 @@ if __name__ == '__main__':
             contract_vpn,
             cfg.node_ip
         )
-
-    # if args.app == "client_checker":
-    #     NewClientChecker(
-    #
-    #     )

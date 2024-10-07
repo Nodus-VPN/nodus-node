@@ -25,6 +25,10 @@ class WG(model.WGInterface):
         response = await self.__async_post("/wireguard/client", {"name": client_address})
         return response["success"]
 
+    async def get_config(self, wg_client_id: str):
+        response = await self.__async_get(f"/wireguard/client/{wg_client_id}/configuration")
+        return response
+
     async def delete_client(self, client_wg_id: str) -> None:
         response = await self.__async_delete(f"/wireguard/client/{client_wg_id}")
         return response["success"]

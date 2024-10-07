@@ -25,9 +25,9 @@ def include_wg_handlers(
         wg_service: model.IWGService
 ):
     app.add_api_route(
-        "/wg/client/create",
-        create_wg_client_handler(wg_service),
-        methods=["POST"],
+        "/wg/client/config/{client_address}",
+        get_wg_config_handler(wg_service),
+        methods=["GET"],
         tags=["Client"],
     )
 

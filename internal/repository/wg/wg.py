@@ -22,10 +22,13 @@ class WGRepository(model.IWGRepository):
         if not success:
             raise Exception(f'Failed to delete client {client_address}')
 
-    async def client_by_address(self, client_address: str):
+    async def client_by_address(self, client_address: str) -> list[model.Client]:
         query_params = {"client_address": client_address}
         rows = await self.db.select(model.client_by_address, query_params)
 
         if rows:
             rows = model.Client.serialize(rows)
         return rows
+
+    async def get_config(self, wg_client_id):
+        return await self.wg.get_config(wg_client_id)
