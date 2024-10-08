@@ -4,14 +4,12 @@ from internal.api.http.handlers.wg.wg import *
 
 from internal import model
 
-PREFIX = "/api"
-
 
 def NewVPN(
         db: model.DBInterface,
         wg_service: model.IWGService
 ):
-    app = FastAPI(root_path=PREFIX)
+    app = FastAPI()
     app.add_api_route("/table/create", create_table_handler(db), methods=["GET"], tags=["System"])
     app.add_api_route("/table/drop", drop_table_handler(db), methods=["GET"], tags=["System"])
 
