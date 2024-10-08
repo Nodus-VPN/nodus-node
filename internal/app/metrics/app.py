@@ -1,34 +1,42 @@
 from fastapi import FastAPI
 
-from internal.api.http.handlers.wg.wg import *
+from internal.api.http.handlers.metrics.metrics import *
 
 from internal import model
+from internal.service.metrics.metrics import MetricsService
 
 PREFIX = "/api"
 
 
-def NewHttp(
+def NewMetrics(
         db: model.DBInterface,
-        wg_service: model.IWGService
+        metrics_service: model.IMetricsService,
 ):
     app = FastAPI(root_path=PREFIX)
     app.add_api_route("/table/create", create_table_handler(db), methods=["GET"], tags=["System"])
     app.add_api_route("/table/drop", drop_table_handler(db), methods=["GET"], tags=["System"])
 
-    include_wg_handlers(app, wg_service)
+    include_metrics_handlers(app, metrics_service)
 
     return app
 
 
-def include_wg_handlers(
+def include_metrics_handlers(
         app: FastAPI,
-        wg_service: model.IWGService
+        metrics_service: model.IMetricsService,
 ):
     app.add_api_route(
-        "/wg/client/config/{client_address}",
-        get_wg_config_handler(wg_service),
+        "/health",
+        health_check_handler(metrics_service),
         methods=["GET"],
-        tags=["Client"],
+        tags=["Metrics"],
+    )
+
+    app.add_api_route(
+        "/traffic",
+        get_traffic_handler(metrics_service),
+        methods=["GET"],
+        tags=["Metrics"],
     )
 
 

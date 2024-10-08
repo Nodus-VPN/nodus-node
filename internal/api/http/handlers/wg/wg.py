@@ -1,9 +1,7 @@
 from fastapi import status
-from fastapi.responses import JSONResponse, FileResponse, Response
+from fastapi.responses import JSONResponse, Response
 
 from internal import model
-from .schemas import *
-from internal.api.http.handlers.status_codes import StatusCodes
 
 
 def get_wg_config_handler(wg_service: model.IWGService):
@@ -24,3 +22,18 @@ def get_wg_config_handler(wg_service: model.IWGService):
             raise e
 
     return get_wg_config
+
+
+def delete_wg_config_handler(wg_service: model.IWGService):
+    async def delete_wg_config(client_address: str):
+        try:
+            await wg_service.delete_client(client_address)
+
+            return JSONResponse(
+                status_code=status.HTTP_200_OK,
+                content={'status': 'success'}
+            )
+        except Exception as e:
+            raise e
+
+    return delete_wg_config

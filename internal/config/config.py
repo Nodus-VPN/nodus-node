@@ -16,6 +16,7 @@ class Config:
 
     wg_host = "wg-easy"
     wg_port = 51821
+
     owner_address = os.getenv("OWNER_ADDRESS")
     owner_private_key = os.getenv("OWNER_PRIVATE_KEY")
 
@@ -249,5 +250,5 @@ class Config:
     ]"""
 
     node_ip: str = os.getenv("NODE_IP")
-    http_port: int = 7000
-    price_per_day: int = 100
+    vpn_port: int = 7000
+    metrics_port: int = 7001

@@ -3,6 +3,7 @@ from typing import Protocol, Any, Sequence
 from internal.model.api import wg
 from internal.model import model
 
+
 class IWGService(Protocol):
 
     @abstractmethod
@@ -43,6 +44,14 @@ class IClientService(Protocol):
 class IClientRepository(Protocol):
     @abstractmethod
     def all_client_address(self) -> list: pass
+
+
+class IMetricsService(Protocol):
+    @abstractmethod
+    async def health_check(self) -> None: pass
+
+    @abstractmethod
+    async def traffic(self) -> int: pass
 
 
 class IContractVPN(Protocol):
