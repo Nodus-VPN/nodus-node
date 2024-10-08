@@ -33,25 +33,9 @@ class IWGRepository(Protocol):
     async def get_config(self, wg_client_id) -> bytes: pass
 
 
-class IClientService(Protocol):
-    @abstractmethod
-    def all_client_address(self) -> list: pass
-
-    @abstractmethod
-    def delete_client(self, client_address: str) -> None: pass
-
-
-class IClientRepository(Protocol):
-    @abstractmethod
-    def all_client_address(self) -> list: pass
-
-
 class IMetricsService(Protocol):
     @abstractmethod
     async def health_check(self) -> None: pass
-
-    @abstractmethod
-    async def traffic(self) -> int: pass
 
 
 class IContractVPN(Protocol):

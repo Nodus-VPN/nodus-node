@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from internal.api.http.handlers.metrics.metrics import *
 
 from internal import model
-from internal.service.metrics.metrics import MetricsService
 
 PREFIX = "/api"
 
@@ -28,13 +27,6 @@ def include_metrics_handlers(
     app.add_api_route(
         "/health",
         health_check_handler(metrics_service),
-        methods=["GET"],
-        tags=["Metrics"],
-    )
-
-    app.add_api_route(
-        "/traffic",
-        get_traffic_handler(metrics_service),
         methods=["GET"],
         tags=["Metrics"],
     )
