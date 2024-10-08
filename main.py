@@ -27,8 +27,8 @@ parser.add_argument(
 contract_vpn = ContractVPN(
     owner_address=cfg.owner_address,
     owner_private_key=cfg.owner_private_key,
-    contract_abi=cfg.contract_abi,
-    contract_address=cfg.contract_address
+    contract_abi=cfg.vpn_contract_abi,
+    contract_address=cfg.vpn_contract_address
 )
 
 

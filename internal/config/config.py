@@ -20,8 +20,8 @@ class Config:
     owner_address = os.getenv("OWNER_ADDRESS")
     owner_private_key = os.getenv("OWNER_PRIVATE_KEY")
 
-    contract_address: str = "0xAf381aEF7BF4c600821989aD0777Fbb589dFA013"
-    contract_abi: str = """[
+    vpn_contract_address: str = "0x03E498Bbb10C21016cd907A5610C08FFC882AEa3"
+    vpn_contract_abi: str = """[
         {
             "inputs": [
                 {
@@ -75,13 +75,6 @@ class Config:
             "type": "event"
         },
         {
-            "inputs": [],
-            "name": "renounceOwnership",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
             "anonymous": false,
             "inputs": [
                 {
@@ -107,43 +100,11 @@ class Config:
             "type": "event"
         },
         {
-            "inputs": [
-                {
-                    "internalType": "string",
-                    "name": "_ip",
-                    "type": "string"
-                }
-            ],
-            "name": "setNodeIP",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "newOwner",
-                    "type": "address"
-                }
-            ],
-            "name": "transferOwnership",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "allClinet",
+            "inputs": [],
+            "name": "NDS",
             "outputs": [
                 {
-                    "internalType": "address",
+                    "internalType": "contract IERC20",
                     "name": "",
                     "type": "address"
                 }
@@ -159,12 +120,60 @@ class Config:
                     "type": "uint256"
                 }
             ],
-            "name": "availableNodes",
+            "name": "allNode",
             "outputs": [
                 {
                     "internalType": "string",
                     "name": "",
                     "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "clientList",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "clients",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "clientAddress",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "subscriptionExpirationDate",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "availabeTraffic",
+                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",
@@ -187,7 +196,7 @@ class Config:
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "_client",
+                    "name": "_clientAddress",
                     "type": "address"
                 }
             ],
@@ -203,13 +212,85 @@ class Config:
             "type": "function"
         },
         {
-            "inputs": [],
-            "name": "NDS",
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "_nodeIP",
+                    "type": "string"
+                }
+            ],
+            "name": "getNodeMetrics",
             "outputs": [
                 {
-                    "internalType": "contract IERC20",
+                    "components": [
+                        {
+                            "internalType": "uint256",
+                            "name": "okResponse",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "failedResponse",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "traffic",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "peopleHours",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "uniqueClients",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct NodusVPN.Node",
                     "name": "",
-                    "type": "address"
+                    "type": "tuple"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "name": "nodeMetrics",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "okResponse",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "failedResponse",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "traffic",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "peopleHours",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "uniqueClients",
+                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",
@@ -245,6 +326,67 @@ class Config:
                 }
             ],
             "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "renounceOwnership",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "_ip",
+                    "type": "string"
+                }
+            ],
+            "name": "setNodeIP",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "newOwner",
+                    "type": "address"
+                }
+            ],
+            "name": "transferOwnership",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "string[]",
+                    "name": "_nodeIP",
+                    "type": "string[]"
+                },
+                {
+                    "internalType": "uint256[]",
+                    "name": "_okResponse",
+                    "type": "uint256[]"
+                },
+                {
+                    "internalType": "uint256[]",
+                    "name": "_failedResponse",
+                    "type": "uint256[]"
+                },
+                {
+                    "internalType": "uint256[]",
+                    "name": "_traffic",
+                    "type": "uint256[]"
+                }
+            ],
+            "name": "updateNodeMetrics",
+            "outputs": [],
+            "stateMutability": "nonpayable",
             "type": "function"
         }
     ]"""
