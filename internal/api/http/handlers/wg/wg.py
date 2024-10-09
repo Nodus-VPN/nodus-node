@@ -16,7 +16,9 @@ def get_wg_config_handler(
         try:
             client_secret_key = request_data.model_dump()["client_secret_key"]
             vpn_client = await vpn_contract.get_client(client_address)
-            print(vpn_client)
+
+            if vpn_contract.hashing_client_secret_key(client_secret_key) != vpn_client.hashed_key:
+                return "403 :)"
 
             wg_client = await wg_service.client_by_address(client_address)
 

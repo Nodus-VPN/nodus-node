@@ -464,3 +464,4 @@ class Config:
     node_ip: str = os.getenv("NODE_IP")
     vpn_port: int = 7000
     metrics_port: int = 7001
+    hash_key: str = "city"

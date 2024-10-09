@@ -1,3 +1,6 @@
+import hashlib
+import hmac
+
 from web3 import AsyncWeb3, Web3
 
 from internal import model
@@ -10,12 +13,14 @@ class ContractVPN(model.IContractVPN):
             contract_abi: list | str,
             owner_address: str,
             owner_private_key: str,
+            hash_key: str,
     ):
         self.w3 = Web3(Web3.HTTPProvider('https://rpc.cardona.zkevm-rpc.com'))
         self.checksum_address = Web3.to_checksum_address(contract_address)
         self.contract = self.w3.eth.contract(self.checksum_address, abi=contract_abi)
         self.owner_address = owner_address
         self.owner_private_key = owner_private_key
+        self.hash_key = hash_key
 
     def _send_transaction(self, function):
         gas_estimate = function.estimate_gas({'from': self.owner_address})
@@ -53,4 +58,7 @@ class ContractVPN(model.IContractVPN):
         vpn_client = self.contract.functions.getClient(client_address).call()
         vpn_client = model.VPNClient(*vpn_client)
         return vpn_client
+
+    def hashing_client_secret_key(self, client_secret_key: str) -> str:
+        return hmac.new(self.hash_key.encode(), client_secret_key.encode(), hashlib.sha256).hexdigest()
 

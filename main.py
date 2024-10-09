@@ -28,7 +28,8 @@ vpn_contract = ContractVPN(
     owner_address=cfg.owner_address,
     owner_private_key=cfg.owner_private_key,
     contract_abi=cfg.vpn_contract_abi,
-    contract_address=cfg.vpn_contract_address
+    contract_address=cfg.vpn_contract_address,
+    hash_key=cfg.hash_key
 )
 
 

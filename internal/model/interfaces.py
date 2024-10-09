@@ -54,6 +54,9 @@ class IContractVPN(Protocol):
     @abstractmethod
     async def get_client(self, client_address: str) -> vpn.VPNClient: pass
 
+    @abstractmethod
+    def hashing_client_secret_key(self, client_secret_key: str) -> str: pass
+
 
 class WGInterface(Protocol):
     @abstractmethod
