@@ -21,12 +21,12 @@ class WGRepository(model.IWGRepository):
         query_params = {"client_wg_id": client.id}
         await self.db.delete(model.delete_wg_client_query, query_params)
 
-    async def client_by_address(self, client_address: str) -> list[model.Client]:
+    async def client_by_address(self, client_address: str) -> list[model.NodeClient]:
         query_params = {"client_address": client_address}
         rows = await self.db.select(model.client_by_address, query_params)
 
         if rows:
-            rows = model.Client.serialize(rows)
+            rows = model.NodeClient.serialize(rows)
         return rows
 
     async def get_config(self, wg_client_id) -> bytes:
