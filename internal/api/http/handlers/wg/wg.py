@@ -1,12 +1,23 @@
 from fastapi import status
 from fastapi.responses import JSONResponse, Response
+from pydantic import BaseModel
 
 from internal import model
 
 
-def get_wg_config_handler(wg_service: model.IWGService):
-    async def get_wg_config(client_address: str):
+def get_wg_config_handler(
+        wg_service: model.IWGService,
+        vpn_contract: model.IContractVPN
+):
+    class RequestModel(BaseModel):
+        client_secret_key: str
+
+    async def get_wg_config(client_address: str, request_data: RequestModel):
         try:
+            client_secret_key = request_data.model_dump()["client_secret_key"]
+            vpn_client = await vpn_contract.get_client(client_address)
+            print(vpn_client)
+
             wg_client = await wg_service.client_by_address(client_address)
 
             if not wg_client:

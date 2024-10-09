@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 @dataclass
-class Client:
+class NodeClient:
     id: int
     wg_id: str
     ovpn_id: str

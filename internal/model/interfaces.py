@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from typing import Protocol, Any, Sequence
-from internal.model.api import wg
+from internal.model.api import wg, vpn
 from internal.model import model
 
 
@@ -13,7 +13,7 @@ class IWGService(Protocol):
     async def delete_client(self, client_address: str): pass
 
     @abstractmethod
-    async def client_by_address(self, client_address: str) -> list[model.Client]: pass
+    async def client_by_address(self, client_address: str) -> list[model.NodeClient]: pass
 
     @abstractmethod
     async def get_config(self, wg_client_id) -> bytes: pass
@@ -27,7 +27,7 @@ class IWGRepository(Protocol):
     async def delete_client(self, client_address: str): pass
 
     @abstractmethod
-    async def client_by_address(self, client_address: str) -> list[model.Client]: pass
+    async def client_by_address(self, client_address: str) -> list[model.NodeClient]: pass
 
     @abstractmethod
     async def get_config(self, wg_client_id) -> bytes: pass
@@ -40,9 +40,6 @@ class IMetricsService(Protocol):
 
 class IContractVPN(Protocol):
     @abstractmethod
-    def client_balance(self, client_address: str) -> int: pass
-
-    @abstractmethod
     def cost_for_set_node_ip(self, node_ip: str) -> int: pass
 
     @abstractmethod
@@ -53,6 +50,9 @@ class IContractVPN(Protocol):
 
     @abstractmethod
     def all_node(self) -> list[str]: pass
+
+    @abstractmethod
+    async def get_client(self, client_address: str) -> vpn.VPNClient: pass
 
 
 class WGInterface(Protocol):

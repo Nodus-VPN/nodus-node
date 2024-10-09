@@ -49,6 +49,8 @@ class ContractVPN(model.IContractVPN):
         tx_receipt = self._send_transaction(function)
         return tx_receipt
 
-    def client_balance(self, client_address: str):
-        client_address = Web3.to_checksum_address(client_address)
-        return self.contract.functions.getClientBalance(client_address).call()
+    async def get_client(self, client_address: str) -> model.VPNClient:
+        vpn_client = await self.contract.functions.getClient(client_address).call()
+        vpn_client = model.VPNClient(*vpn_client)
+        return vpn_client
+
