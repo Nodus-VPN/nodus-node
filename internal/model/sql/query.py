@@ -6,7 +6,7 @@ RETURNING id;
 
 delete_wg_client_query = """
 DELETE FROM clients
-WHERE client_wg_id = :client_wg_id;
+WHERE wg_id = :client_wg_id;
 """
 
 client_by_address = """
