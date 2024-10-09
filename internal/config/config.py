@@ -20,7 +20,7 @@ class Config:
     owner_address = os.getenv("OWNER_ADDRESS")
     owner_private_key = os.getenv("OWNER_PRIVATE_KEY")
 
-    vpn_contract_address: str = "0x09E2C60D535516642f530BdAb412adf1b19D0dda"
+    vpn_contract_address: str = "0xb64Af1F03Ae7a17ddd1e1f96fFc6264a0C835FE5"
     vpn_contract_abi: str = """[
         {
             "inputs": [
@@ -123,8 +123,13 @@ class Config:
             "inputs": [
                 {
                     "internalType": "uint256",
-                    "name": "subscriptionDuration",
+                    "name": "_subscriptionDuration",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_hashedKey",
+                    "type": "string"
                 }
             ],
             "name": "subscribe",
@@ -218,6 +223,11 @@ class Config:
             "name": "clients",
             "outputs": [
                 {
+                    "internalType": "string",
+                    "name": "hashedKey",
+                    "type": "string"
+                },
+                {
                     "internalType": "uint256",
                     "name": "subscriptionExpirationDate",
                     "type": "uint256"
@@ -264,6 +274,11 @@ class Config:
             "outputs": [
                 {
                     "components": [
+                        {
+                            "internalType": "string",
+                            "name": "hashedKey",
+                            "type": "string"
+                        },
                         {
                             "internalType": "uint256",
                             "name": "subscriptionExpirationDate",
