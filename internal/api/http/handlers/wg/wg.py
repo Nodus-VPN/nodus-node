@@ -34,6 +34,6 @@ def delete_wg_config_handler(wg_service: model.IWGService):
                 content={'status': 'success'}
             )
         except Exception as e:
-            pass
+            raise e
 
     return delete_wg_config
