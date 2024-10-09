@@ -39,6 +39,7 @@ def get_wg_config_handler(
         except Exception as e:
             raise e
 
+
     return get_wg_config
 
 
