@@ -20,6 +20,7 @@ class WGRepository(model.IWGRepository):
 
         query_params = {"client_wg_id": client.id}
         await self.db.delete(model.delete_wg_client_query, query_params)
+        print(f"Удалили {client.id}")
 
     async def client_by_address(self, client_address: str) -> list[model.NodeClient]:
         query_params = {"client_address": client_address}
