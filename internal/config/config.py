@@ -20,7 +20,7 @@ class Config:
     owner_address = os.getenv("OWNER_ADDRESS")
     owner_private_key = os.getenv("OWNER_PRIVATE_KEY")
 
-    vpn_contract_address: str = "0xDd00C157C8a512fb917482071436f3707A75Af87"
+    vpn_contract_address: str = "0x09E2C60D535516642f530BdAb412adf1b19D0dda"
     vpn_contract_abi: str = """[
         {
             "inputs": [
@@ -228,7 +228,7 @@ class Config:
         },
         {
             "inputs": [],
-            "name": "getAllClient",
+            "name": "getAllClientAddress",
             "outputs": [
                 {
                     "internalType": "address[]",
