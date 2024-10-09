@@ -50,7 +50,7 @@ class ContractVPN(model.IContractVPN):
         return tx_receipt
 
     async def get_client(self, client_address: str) -> model.VPNClient:
-        vpn_client = await self.contract.functions.getClient(client_address).call()
+        vpn_client = self.contract.functions.getClient(client_address).call()
         vpn_client = model.VPNClient(*vpn_client)
         return vpn_client
 
