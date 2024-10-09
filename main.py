@@ -24,7 +24,7 @@ parser.add_argument(
     help='Option: "vpn, init_node, metrics"'
 )
 
-contract_vpn = ContractVPN(
+vpn_contract = ContractVPN(
     owner_address=cfg.owner_address,
     owner_private_key=cfg.owner_private_key,
     contract_abi=cfg.vpn_contract_abi,
@@ -45,12 +45,12 @@ if __name__ == '__main__':
 
     if args.app == "init_node":
         InitNode(
-            contract_vpn,
+            vpn_contract,
             cfg.node_ip
         )
 
     if args.app == "vpn":
-        app = NewVPN(db, wg_service)
+        app = NewVPN(db, wg_service, vpn_contract)
         uvicorn.run(app, host="0.0.0.0", port=cfg.vpn_port)
 
     if args.app == "metrics":

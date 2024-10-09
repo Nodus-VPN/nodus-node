@@ -7,24 +7,26 @@ from internal import model
 
 def NewVPN(
         db: model.DBInterface,
-        wg_service: model.IWGService
+        wg_service: model.IWGService,
+        vpn_contract: model.IContractVPN
 ):
     app = FastAPI()
     app.add_api_route("/table/create", create_table_handler(db), methods=["GET"], tags=["System"])
     app.add_api_route("/table/drop", drop_table_handler(db), methods=["GET"], tags=["System"])
 
-    include_wg_handlers(app, wg_service)
+    include_wg_handlers(app, wg_service, vpn_contract)
 
     return app
 
 
 def include_wg_handlers(
         app: FastAPI,
-        wg_service: model.IWGService
+        wg_service: model.IWGService,
+        vpn_contract: model.IContractVPN
 ):
     app.add_api_route(
         "/wg/client/config/{client_address}",
-        get_wg_config_handler(wg_service),
+        get_wg_config_handler(wg_service, vpn_contract),
         methods=["GET"],
         tags=["Client"],
     )

@@ -12,7 +12,7 @@ def InitNode(
         print(f"Вы уже инициализировались ранее, ваш IP: {node_ip}")
         sys.exit(0)
 
-    transaction_cost = contract.cost_for_set_node_ip("node_ip")
+    transaction_cost = contract.cost_for_set_node_ip(node_ip)
     sender_balance = contract.owner_balance()
 
     if transaction_cost >= sender_balance:
