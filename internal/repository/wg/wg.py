@@ -7,10 +7,7 @@ class WGRepository(model.IWGRepository):
         self.wg = wg
 
     async def create_client(self, client_address: str) -> str:
-        success = await self.wg.create_client(client_address)
-        if not success:
-            raise Exception(f'Failed to create client {client_address}')
-
+        await self.wg.create_client(client_address)
         client = await self.wg.client_by_address(client_address)
 
         query_params = {"client_address": client_address, "client_wg_id": client.id}
@@ -18,9 +15,11 @@ class WGRepository(model.IWGRepository):
         return client.id
 
     async def delete_client(self, client_address: str):
-        success = await self.wg.client_by_address(client_address)
-        if not success:
-            raise Exception(f'Failed to delete client {client_address}')
+        client = await self.wg.client_by_address(client_address)
+        await self.wg.delete_client(client.id)
+
+        query_params = {"client_wg_id": client.id}
+        await self.db.delete(model.delete_wg_client_query, query_params)
 
     async def client_by_address(self, client_address: str) -> list[model.Client]:
         query_params = {"client_address": client_address}

@@ -60,7 +60,7 @@ class WGInterface(Protocol):
     async def create_client(self, client_address: str): pass
 
     @abstractmethod
-    async def delete_client(self, client_address: str) -> None: pass
+    async def delete_client(self, wg_client_id: str) -> None: pass
 
     @abstractmethod
     async def all_client(self) -> list[wg.WGClient]: pass

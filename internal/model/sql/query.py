@@ -4,6 +4,11 @@ VALUES (:client_address, :client_wg_id)
 RETURNING id;
 """
 
+delete_wg_client_query = """
+DELETE FROM clients
+WHERE address = :client_address;
+"""
+
 client_by_address = """
 SELECT * FROM clients
 WHERE address = :client_address
