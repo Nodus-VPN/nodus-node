@@ -1,3 +1,5 @@
+import time
+
 from fastapi import status
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel
@@ -18,7 +20,10 @@ def get_wg_config_handler(
             vpn_client = await vpn_contract.get_client(client_address)
 
             if vpn_contract.hashing_client_secret_key(client_secret_key) != vpn_client.hashed_key:
-                return "403 :)"
+                return "Wrong client secret key"
+
+            if vpn_client.subscription_expiration_date < int(time.time()):
+                return "Subscription expired"
 
             wg_client = await wg_service.client_by_address(client_address)
 
