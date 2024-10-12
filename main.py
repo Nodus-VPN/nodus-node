@@ -2,6 +2,7 @@ import uvicorn
 
 from infrastructure.pg.pg import PG
 from infrastructure.wg.wg import WG
+from infrastructure.ovpn.ovpn import OVPN
 
 from pkg.contracts.vpn import ContractVPN
 
@@ -57,5 +58,12 @@ if __name__ == '__main__':
     if args.app == "metrics":
         app = NewMetrics(db, metrics_service)
         uvicorn.run(app, host="0.0.0.0", port=cfg.metrics_port)
+
+    if args.app == "test":
+        ovpn = OVPN()
+        ovpn.create_client("admin")
+        config = ovpn.get_config("admin")
+        ovpn.delete_client("admin")
+        print(config.decode("utf-8"))
 
 

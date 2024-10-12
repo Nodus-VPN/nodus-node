@@ -75,6 +75,17 @@ class WGInterface(Protocol):
     async def get_config(self, wg_client_id: str) -> bytes: pass
 
 
+class OVPNInterface(Protocol):
+    @abstractmethod
+    def create_client(self, client_address: str): pass
+
+    @abstractmethod
+    def delete_client(self, client_address: str) -> None: pass
+
+    @abstractmethod
+    def get_config(self, client_address: str) -> bytes: pass
+
+
 class DBInterface(Protocol):
     @abstractmethod
     async def insert(self, query: str, query_params: dict) -> int: pass
