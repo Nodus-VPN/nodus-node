@@ -67,8 +67,10 @@ else
   echo ""
 fi
 
-docker run -v /etc/openvpn:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://$NODE_IP
-docker run -v /etc/openvpn:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+if [ ! -f /etc/openvpn/crl.pem ]; then
+    docker run -v /etc/openvpn:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://$NODE_IP
+    docker run -v /etc/openvpn:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+    openssl rsa -in /etc/openvpn/pki/private/ca.key -out /etc/openvpn/pki/private/ca.key
+fi
 usermod -aG docker $USER
-openssl rsa -in /etc/openvpn/pki/private/ca.key -out /etc/openvpn/pki/private/ca.key
 docker compose -f docker/docker-compose.yml up --build
