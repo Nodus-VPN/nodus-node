@@ -37,7 +37,7 @@ def include_vpn_handlers(
     )
 
     app.add_api_route(
-        "/wg/client/config/{client_address}",
+        "/config/{client_address}",
         delete_client_handler(vpn_service),
         methods=["DELETE"],
         tags=["Client"],
