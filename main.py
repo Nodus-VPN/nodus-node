@@ -51,6 +51,7 @@ if __name__ == '__main__':
             cfg.node_ip
         )
 
+
     if args.app == "vpn":
         app = NewVPN(db, wg_service, vpn_contract)
         uvicorn.run(app, host="0.0.0.0", port=cfg.vpn_port)
