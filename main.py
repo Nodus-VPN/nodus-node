@@ -10,8 +10,8 @@ from internal.app.init_node.app import InitNode
 from internal.app.vpn.app import NewVPN
 from internal.app.metrics.app import NewMetrics
 
-from internal.service.wg.wg import WGService
-from internal.repository.wg.wg import WGRepository
+from internal.service.vpn.vpn import VPNService
+from internal.repository.vpn.vpn import VPNRepository
 
 from internal.service.metrics.metrics import MetricsService
 
@@ -37,8 +37,10 @@ vpn_contract = ContractVPN(
 db = PG(cfg.db_user, cfg.db_pass, cfg.db_host, cfg.db_port, cfg.db_name)
 
 wg = WG(cfg.wg_host, cfg.wg_port)
-wg_repository = WGRepository(db, wg)
-wg_service = WGService(wg_repository)
+ovpn = OVPN()
+
+ovpn_repository = VPNRepository(db, wg, ovpn)
+ovpn_service = VPNService(ovpn_repository)
 
 metrics_service = MetricsService(db, wg)
 
@@ -52,7 +54,7 @@ if __name__ == '__main__':
         )
 
     if args.app == "vpn":
-        app = NewVPN(db, wg_service, vpn_contract)
+        app = NewVPN(db, ovpn_service, vpn_contract)
         uvicorn.run(app, host="0.0.0.0", port=cfg.vpn_port)
 
     if args.app == "metrics":
