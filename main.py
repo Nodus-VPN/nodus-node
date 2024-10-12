@@ -51,7 +51,6 @@ if __name__ == '__main__':
             cfg.node_ip
         )
 
-
     if args.app == "vpn":
         app = NewVPN(db, wg_service, vpn_contract)
         uvicorn.run(app, host="0.0.0.0", port=cfg.vpn_port)
@@ -59,12 +58,5 @@ if __name__ == '__main__':
     if args.app == "metrics":
         app = NewMetrics(db, metrics_service)
         uvicorn.run(app, host="0.0.0.0", port=cfg.metrics_port)
-
-    if args.app == "test":
-        ovpn = OVPN()
-        ovpn.create_client("admin")
-        config = ovpn.get_config("admin")
-        ovpn.delete_client("admin")
-        print(config.decode("utf-8"))
 
 

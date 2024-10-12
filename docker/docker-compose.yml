@@ -44,21 +44,6 @@ services:
     networks:
       - net
 
-  nodus-test:
-    build:
-      context: "../"
-      dockerfile: "docker/DockerfileTest"
-    container_name: nodus-test
-    environment:
-      OWNER_ADDRESS: ${OWNER_ADDRESS}
-      OWNER_PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
-      NODE_IP: ${NODE_IP}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-    networks:
-      - net
-
   nodus-db:
     image: postgres:latest
     container_name: nodus-db
@@ -68,7 +53,6 @@ services:
       POSTGRES_DB: postgres
     networks:
       - net
-
 
   wg-easy:
     image: ghcr.io/wg-easy/wg-easy
@@ -86,11 +70,24 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv4.ip_forward=1
-      - net.ipv6.conf.default.forwarding=1
-      - net.ipv6.conf.all.forwarding=1
     restart: unless-stopped
     networks:
       - net
+
+  openvpn:
+    image: kylemanna/openvpn
+    container_name: openvpn
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv6.conf.default.forwarding=1
+      - net.ipv6.conf.all.forwarding=1
+    environment:
+      - TZ=Europe/Moscow
+    volumes:
+      - /etc/openvpn:/etc/openvpn
+    ports:
+      - "1194:1194/udp"
 
 networks:
   net:

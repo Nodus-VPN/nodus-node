@@ -4,10 +4,25 @@ from internal.model.api import wg, vpn
 from internal.model import model
 
 
-class IWGService(Protocol):
+class IVPNService(Protocol):
 
     @abstractmethod
-    async def create_client(self, client_address: str) -> str: pass
+    async def create_wg_client(self, client_address: str) -> str: pass
+
+    @abstractmethod
+    async def set_wg_client(self, client_address: str) -> str: pass
+
+    @abstractmethod
+    async def get_wg_config(self, wg_client_id: str) -> bytes: pass
+
+    @abstractmethod
+    async def create_ovpn_client(self, client_address: str): pass
+
+    @abstractmethod
+    async def set_ovpn_client(self, client_address: str): pass
+
+    @abstractmethod
+    async def get_ovpn_config(self, client_address: str) -> bytes: pass
 
     @abstractmethod
     async def delete_client(self, client_address: str): pass
@@ -15,22 +30,31 @@ class IWGService(Protocol):
     @abstractmethod
     async def client_by_address(self, client_address: str) -> list[model.NodeClient]: pass
 
-    @abstractmethod
-    async def get_config(self, wg_client_id) -> bytes: pass
 
-
-class IWGRepository(Protocol):
+class IVPNRepository(Protocol):
     @abstractmethod
-    async def create_client(self, client_address: str) -> str: pass
+    async def create_wg_client(self, client_address: str) -> str: pass
+
+    @abstractmethod
+    async def set_wg_client(self, client_address: str) -> str: pass
+
+    @abstractmethod
+    async def get_wg_config(self, wg_client_id: str) -> bytes: pass
+
+    @abstractmethod
+    async def create_ovpn_client(self, client_address: str): pass
+
+    @abstractmethod
+    async def set_ovpn_client(self, client_address: str): pass
+
+    @abstractmethod
+    async def get_ovpn_config(self, client_address: str) -> bytes: pass
 
     @abstractmethod
     async def delete_client(self, client_address: str): pass
 
     @abstractmethod
     async def client_by_address(self, client_address: str) -> list[model.NodeClient]: pass
-
-    @abstractmethod
-    async def get_config(self, wg_client_id) -> bytes: pass
 
 
 class IMetricsService(Protocol):
