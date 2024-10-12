@@ -34,7 +34,7 @@ class VPNRepository(model.IVPNRepository):
         await self.db.insert(model.create_wg_client, query_params)
 
     async def set_ovpn_client(self, client_address: str):
-        await self.ovpn.create_client(client_address)
+        self.ovpn.create_client(client_address)
 
         query_params = {"client_address": client_address, "client_ovpn_id": client_address}
         await self.db.insert(model.set_ovpn_client, query_params)
