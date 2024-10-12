@@ -4,4 +4,4 @@ WORKDIR /root/filesharing
 COPY . .
 
 RUN pip install -r requirements.txt
-CMD python3 main.py init_node
+CMD sleep 10 && python3 main.py init_node

@@ -20,7 +20,7 @@ class VPNRepository(model.IVPNRepository):
         client = await self.wg.client_by_address(client_address)
 
         query_params = {"client_address": client_address, "client_wg_id": client.id}
-        await self.db.insert(model.set_wg_client, query_params)
+        await self.db.update(model.set_wg_client, query_params)
         return client.id
 
     async def get_wg_config(self, wg_client_id: str) -> bytes:
@@ -37,7 +37,7 @@ class VPNRepository(model.IVPNRepository):
         self.ovpn.create_client(client_address)
 
         query_params = {"client_address": client_address, "client_ovpn_id": client_address}
-        await self.db.insert(model.set_ovpn_client, query_params)
+        await self.db.update(model.set_ovpn_client, query_params)
 
     # GENERAL
     async def get_ovpn_config(self, client_address: str) -> bytes:
