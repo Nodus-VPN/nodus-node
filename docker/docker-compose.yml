@@ -10,6 +10,8 @@ services:
       OWNER_ADDRESS: ${OWNER_ADDRESS}
       OWNER_PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
       NODE_IP: ${NODE_IP}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: no
     networks:
       - net
@@ -25,6 +27,8 @@ services:
       OWNER_ADDRESS: ${OWNER_ADDRESS}
       OWNER_PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
       NODE_IP: ${NODE_IP}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     networks:
       - net
@@ -40,6 +44,8 @@ services:
       OWNER_ADDRESS: ${OWNER_ADDRESS}
       OWNER_PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
       NODE_IP: ${NODE_IP}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     networks:
       - net
@@ -53,6 +59,7 @@ services:
       POSTGRES_DB: postgres
     networks:
       - net
+
 
   wg-easy:
     image: ghcr.io/wg-easy/wg-easy
