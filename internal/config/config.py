@@ -20,6 +20,7 @@ class Config:
     owner_address = os.getenv("OWNER_ADDRESS")
     owner_private_key = os.getenv("OWNER_PRIVATE_KEY")
 
+
     vpn_contract_address: str = "0xCb0cdc6Ac51868e15Ab8CAac532ab9D164EEE277"
     vpn_contract_abi: str = """[
             {
