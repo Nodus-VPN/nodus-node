@@ -14,3 +14,5 @@ apt install git -y && \
 git clone https://github.com/Nodus-VPN/nodus-node.git && \
 cd nodus-node && ./scripts/init.sh
 ```
+- Для инициализации OpenVPN скрипт создает приватные ключи, поэтому нужно будет во время выполнения задать пароль.
+Он будет запрашиваться несколько раз. Вводите один и тот же пароль каждый раз
