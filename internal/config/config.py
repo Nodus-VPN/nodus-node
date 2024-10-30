@@ -14,6 +14,7 @@ class Config:
     db_port = 5432
     db_name = "postgres"
 
+
     wg_host = "wg-easy"
     wg_port = 51821
 
