@@ -47,7 +47,7 @@ class ContractVPN(model.IContractVPN):
         return self.w3.eth.get_balance(Web3.to_checksum_address(self.owner_address))
 
     def all_node(self) -> list[str]:
-        return self.contract.functions.getAllNode().call()
+        return self.contract.functions.getAllNodeIp().call()
 
     def set_node_ip(self, node_ip: str):
         function = self.contract.functions.setNodeIP(node_ip)
