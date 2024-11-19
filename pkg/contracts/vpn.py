@@ -15,7 +15,7 @@ class ContractVPN(model.IContractVPN):
             owner_private_key: str,
             hash_key: str,
     ):
-        self.w3 = Web3(Web3.HTTPProvider('https://rpc.cardona.zkevm-rpc.com'))
+        self.w3 = Web3(Web3.HTTPProvider('https://rpc-amoy.polygon.technology'))
         self.checksum_address = Web3.to_checksum_address(contract_address)
         self.contract = self.w3.eth.contract(self.checksum_address, abi=contract_abi)
         self.owner_address = owner_address
