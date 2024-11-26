@@ -25,7 +25,7 @@ class Config:
     metrics_port: int = 7001
     hash_key: str = "city"
 
-    vpn_contract_address: str = "0x69711609a494E0A937B139243Bb969F8eA0ee204"
+    vpn_contract_address: str = "0xEba8528ac2136D5ac30FbdD8D012Ebe8D9468b42"
     vpn_contract_abi: str = """[
         {
             "inputs": [

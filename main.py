@@ -39,8 +39,8 @@ db = PG(cfg.db_user, cfg.db_pass, cfg.db_host, cfg.db_port, cfg.db_name)
 wg = WG(cfg.wg_host, cfg.wg_port)
 ovpn = OVPN()
 
-ovpn_repository = VPNRepository(db, wg, ovpn)
-ovpn_service = VPNService(ovpn_repository)
+vpn_repository = VPNRepository(db, wg, ovpn)
+vpn_service = VPNService(vpn_repository)
 
 metrics_service = MetricsService(db, wg)
 
@@ -54,7 +54,7 @@ if __name__ == '__main__':
         )
 
     if args.app == "vpn":
-        app = NewVPN(db, ovpn_service, vpn_contract)
+        app = NewVPN(db, vpn_service, vpn_contract)
         uvicorn.run(app, host="0.0.0.0", port=cfg.vpn_port)
 
     if args.app == "metrics":
